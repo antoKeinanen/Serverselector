@@ -60,6 +60,6 @@ public class ConfigManager {
                 "Could not start server"
         );
 
-        return config.createConfigFile(9, "Select a server", "example.com", "admin", "crafty", items, messages);
+        return config.createConfigFile(9, "Select a server", "https://example.com", "admin", "crafty", items, messages);
     }
 }
