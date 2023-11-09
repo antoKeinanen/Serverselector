@@ -86,5 +86,7 @@ language or customize the messages.
 ## Roadmap
 - Add configuration for server ping time
 - Handle player leave event to leave queues
+- Color support
+- Config schema validation
 
 After this I will consider this plugin completed and only fix bugs.
