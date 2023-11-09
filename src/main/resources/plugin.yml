@@ -1,0 +1,9 @@
+name: serverselector
+version: '${project.version}'
+main: dev.antok.serverselector.Serverselector
+api-version: '1.20'
+commands:
+  join:
+    description: join a server
+    usage: /join
+    permission: serverselector.join
