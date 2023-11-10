@@ -43,16 +43,15 @@ public class ConfigManager {
 
         logger.info("Validating configuration...");
         try {
-            if ((this.configFile.isValid() && this.configFile.messages.isValid())) {
-                for (var server: this.configFile.server) {
-                    if (!server.isValid()){
-                        logger.warning("Invalid configuration!");
-                        return;
-                    }
+            for (var server: this.configFile.server) {
+                if (!server.isValid()){
+                    logger.warning("Invalid server configuration!");
+                    break;
                 }
-            } else {
-                logger.warning("Invalid!");
             }
+
+            if (!this.configFile.messages.isValid()) logger.warning("Invalid message configuration!");
+            if (!this.configFile.isValid()) logger.warning("Invalid configuration!");
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
@@ -76,6 +75,6 @@ public class ConfigManager {
                 "<red>Could not start server</red>"
         );
 
-        return config.createConfigFile(9, "Select a server", "https://example.com", "admin", "crafty", items, messages);
+        return config.createConfigFile(9, "Select a server", "https://example.com", 20*5, "admin", "crafty", items, messages);
     }
 }

@@ -40,16 +40,11 @@ public class Config {
         }
 
         public boolean isValid() throws IllegalAccessException {
-            return this.inventorySize % 9 == 0 && this.inventorySize > 55 && (this.panelUrl.startsWith("http://") || this.panelUrl.startsWith("https://")) && !this.panelUrl.endsWith("/") && this.ensureNoNulls();
+            if (this.inventoryName == null || this.panelUrl == null || this.username == null || this.password == null || this.server == null || this.messages == null)
+                return false;
+            return this.inventorySize % 9 == 0 && this.inventorySize < 57 && (this.panelUrl.startsWith("http://") || this.panelUrl.startsWith("https://")) && !this.panelUrl.endsWith("/");
         }
 
-        private boolean ensureNoNulls() throws IllegalAccessException {
-            for (final Field field : getClass().getDeclaredFields()) {
-                final Object value = field.get(this);
-                if (value == null) return false;
-            }
-            return true;
-        }
     }
 
     public class Item {
@@ -71,11 +66,7 @@ public class Config {
 
         boolean isValid() throws IllegalAccessException {
             if (this.slot > 55) return false;
-            for (final Field field : getClass().getDeclaredFields()) {
-                final Object value = field.get(this);
-                if (value == null) return false;
-            }
-            return true;
+            return this.name != null && this.material != null && this.lore != null && this.serverName != null;
         }
     }
 
@@ -87,14 +78,6 @@ public class Config {
         public String waitingForServer;
         public String serverStartError;
 
-        boolean isValid() throws IllegalAccessException {
-            for (final Field field : getClass().getDeclaredFields()) {
-                final Object value = field.get(this);
-                if (value == null) return false;
-            }
-            return true;
-        }
-
         public Messages(String notAPlayer, String noSuchServer, String sendingToServer, String startingServer,
                         String waitingForServer, String serverStartError) {
             this.notAPlayer = notAPlayer;
@@ -103,6 +86,10 @@ public class Config {
             this.startingServer = startingServer;
             this.waitingForServer = waitingForServer;
             this.serverStartError = serverStartError;
+        }
+
+        boolean isValid() throws IllegalAccessException {
+            return (this.notAPlayer != null || this.noSuchServer != null || this.sendingToServer != null || this.startingServer != null || this.waitingForServer != null || this.serverStartError != null);
         }
     }
 }
