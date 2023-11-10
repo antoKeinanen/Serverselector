@@ -60,6 +60,11 @@ trailing slash.
 - Ok: `https://example.com`, `http://example.com`, `http://localhost:8443`, `https://localhost`.
 - Not ok: `example.com`, `localhost`, `https://example.com/`
 
+## Ping time
+
+Ping time is how often the plugin checks if the server has started. It is measured in game tics so the default value
+is `20*5=100` so 5 seconds.
+
 ### Username and password
 
 The username and password should be set to be the credentials for the user that can control the servers you want
@@ -86,8 +91,5 @@ language or customize the messages. Messages supports MiniMessage
 formatting. [documentation](https://docs.advntr.dev/minimessage/format.html)
 
 ## Roadmap
-
-- Add configuration for server ping time
-- Handle player leave event to leave queues
 
 After this I will consider this plugin completed and only fix bugs.
