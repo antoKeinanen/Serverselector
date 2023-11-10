@@ -6,6 +6,7 @@ import dev.antok.serverselector.inventory.JoinInventory;
 import dev.antok.serverselector.config.ConfigManager;
 import dev.antok.serverselector.util.SendPlayerToServer;
 import dev.antok.serverselector.util.ServerStarter;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +24,7 @@ public final class Serverselector extends JavaPlugin {
         final Serverselector instance = this;
 
         Config.ConfigFile configFile = new ConfigManager(this).configFile;
+        MiniMessage mm = MiniMessage.miniMessage();
 
         final ServerStarter serverStarter = new ServerStarter(logger, configFile);
         final JoinInventory joinInventory = new JoinInventory(logger, serverStarter, this, configFile);

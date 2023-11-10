@@ -47,17 +47,17 @@ public class ConfigManager {
     Config.ConfigFile createNewConfig() {
         Config config = new Config();
         List<Config.Item> items = Arrays.asList(
-                config.createItem("Example server 1", 2, "DIRT", Arrays.asList("Join now", "Line 2"), 2, "server_1"),
-                config.createItem("Example server 2", 6, "DIAMOND", Arrays.asList("Join now", "Line 2"), 3, "server_2")
+                config.createItem("<bold>Example server 1</bold>", 2, "DIRT", Arrays.asList("Join now", "Line 2"), 2, "server_1"),
+                config.createItem("<bold>Example server 2</bold>", 6, "DIAMOND", Arrays.asList("Join now", "Line 2"), 3, "server_2")
         );
 
         Config.Messages messages = config.createMessages(
-                "You can only run this as a player",
-                "No server with ID",
+                "<red>You can only run this as a player</red>",
+                "<red>No server with ID</red>",
                 "Sending to server",
                 "Starting the server",
                 "Waiting for the server to start",
-                "Could not start server"
+                "<red>Could not start server</red>"
         );
 
         return config.createConfigFile(9, "Select a server", "https://example.com", "admin", "crafty", items, messages);

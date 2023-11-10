@@ -18,34 +18,34 @@ choose which server to join. If the server is not on for some reason it will be 
 
    ```toml
     inventorySize = 9
-    inventoryName = "Select a server"
-    panelUrl = "https://example.com"
-    username = "admin"
-    password = "crafty"
-    
-    [[server]]
-    name = "Example server 1"
-    slot = 2
-    material = "DIRT"
-    lore = ["Join now", "Line 2"]
-    serverId = 2
-    serverName = "server_1"
-    
-    [[server]]
-    name = "Example server 2"
-    slot = 6
-    material = "DIAMOND"
-    lore = ["Join now", "Line 2"]
-    serverId = 3
-    serverName = "server_2"
-    
-    [messages]
-    notAPlayer = "You can only run this as a player"
-    noSuchServer = "No server with ID"
-    sendingToServer = "Sending to server"
-    startingServer = "Starting the server"
-    waitingForServer = "Waiting for the server to start"
-    serverStartError = "Could not start server"
+inventoryName = "Select a server"
+panelUrl = "https://example.com"
+username = "admin"
+password = "crafty"
+
+[[server]]
+name = "<bold>Example server 1</bold>"
+slot = 2
+material = "DIRT"
+lore = ["Join now", "Line 2"]
+serverId = 2
+serverName = "server_1"
+
+[[server]]
+name = "<bold>Example server 2</bold>"
+slot = 6
+material = "DIAMOND"
+lore = ["Join now", "Line 2"]
+serverId = 3
+serverName = "server_2"
+
+[messages]
+notAPlayer = "<red>You can only run this as a player</red>"
+noSuchServer = "<red>No server with ID</red>"
+sendingToServer = "Sending to server"
+startingServer = "Starting the server"
+waitingForServer = "Waiting for the server to start"
+serverStartError = "<red>Could not start server</red>"
    ```
 
 </details>
@@ -67,7 +67,8 @@ Serverselector to be able to start. Only `Access` permission node should be enou
 
 ### Server
 
-Servers can be added with the `[[server]]` header.
+Servers can be added with the `[[server]]` header. Item names and the lore supports MiniMessage
+formatting. [documentation](https://docs.advntr.dev/minimessage/format.html)
 
 - **Name:** The name of the server that will be displayed to the user.
 - **Slot:** The inventory slot that the server item should be.
@@ -81,9 +82,11 @@ Servers can be added with the `[[server]]` header.
 ## Messages
 
 Everything under the `[messages]` header are considered as messages, they can be used to localize the plugin to your
-language or customize the messages.
+language or customize the messages. Messages supports MiniMessage
+formatting. [documentation](https://docs.advntr.dev/minimessage/format.html)
 
 ## Roadmap
+
 - Add configuration for server ping time
 - Handle player leave event to leave queues
 - Color support

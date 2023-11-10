@@ -4,6 +4,8 @@ import dev.antok.serverselector.Serverselector;
 import dev.antok.serverselector.config.Config;
 import dev.antok.serverselector.util.SendPlayerToServer;
 import dev.antok.serverselector.util.ServerStarter;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -32,6 +34,7 @@ public class JoinInventory implements Listener {
     private final ServerStarter serverStarter;
     private final Serverselector main;
     final Config.ConfigFile configFile;
+    private final MiniMessage mm;
 
 
     public JoinInventory(Logger logger, ServerStarter serverStarter, Serverselector serverselector, Config.ConfigFile configFile) {
@@ -39,15 +42,17 @@ public class JoinInventory implements Listener {
         this.serverStarter = serverStarter;
         this.main = serverselector;
         this.configFile = configFile;
+        this.mm = MiniMessage.miniMessage();
 
-        inventory = Bukkit.createInventory(null, 9, "Example");
+        inventory = Bukkit.createInventory(null, 9, configFile.inventoryName);
 
         initializeItems();
     }
 
     public void initializeItems() {
         for (Config.Item server : configFile.server) {
-            inventory.setItem(server.slot, createGuiItem(Material.getMaterial(server.material), server.name, server.lore));
+            List<Component> lore = server.lore.stream().map(this.mm::deserialize).toList();
+            inventory.setItem(server.slot, createGuiItem(Material.getMaterial(server.material), this.mm.deserialize(server.name), lore));
         }
     }
 
@@ -55,12 +60,12 @@ public class JoinInventory implements Listener {
         entity.openInventory(inventory);
     }
 
-    protected ItemStack createGuiItem(final Material material, final String name, final List<String> lore) {
+    protected ItemStack createGuiItem(final Material material, final Component name, final List<Component> lore) {
         final ItemStack item = new ItemStack(material, 1);
         final ItemMeta itemMeta = item.getItemMeta();
 
-        itemMeta.setDisplayName(name);
-        itemMeta.setLore(lore);
+        itemMeta.displayName(name);
+        itemMeta.lore(lore);
         item.setItemMeta(itemMeta);
 
         return item;
@@ -97,15 +102,15 @@ public class JoinInventory implements Listener {
         if (isServerRunning) {
             final String serverName = server.serverName;
 
-            player.sendMessage(configFile.messages.sendingToServer);
+            player.sendMessage(this.mm.deserialize(configFile.messages.sendingToServer));
             SendPlayerToServer.sendPlayerToServer(player, serverName, main);
         } else {
-            player.sendMessage(configFile.messages.startingServer);
+            player.sendMessage(this.mm.deserialize(configFile.messages.startingServer));
             try {
                 serverStarter.requestServerStart(serverID);
             } catch (NoSuchAlgorithmException | KeyManagementException | ExecutionException | InterruptedException e) {
                 logger.severe(e.getMessage());
-                player.sendMessage(configFile.messages.serverStartError);
+                player.sendMessage(this.mm.deserialize(configFile.messages.serverStartError));
             }
             main.joiningPlayers.put(player, serverID);
         }
