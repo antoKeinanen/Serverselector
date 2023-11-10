@@ -41,6 +41,22 @@ public class ConfigManager {
             return;
         }
 
+        logger.info("Validating configuration...");
+        try {
+            if ((this.configFile.isValid() && this.configFile.messages.isValid())) {
+                for (var server: this.configFile.server) {
+                    if (!server.isValid()){
+                        logger.warning("Invalid configuration!");
+                        return;
+                    }
+                }
+            } else {
+                logger.warning("Invalid!");
+            }
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
         logger.info("Loaded configuration successfully!");
     }
 

@@ -1,5 +1,6 @@
 package dev.antok.serverselector.config;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class Config {
@@ -7,11 +8,14 @@ public class Config {
         return new Item(name, slot, material, lore, serverId, serverName);
     }
 
-    public Messages createMessages(String notAPlayer, String noSuchServer, String sendingToServer, String startingServer, String waitingForServer, String serverStartError) {
-        return new Messages(notAPlayer, noSuchServer, sendingToServer, startingServer, waitingForServer, serverStartError);
+    public Messages createMessages(String notAPlayer, String noSuchServer, String sendingToServer,
+                                   String startingServer, String waitingForServer, String serverStartError) {
+        return new Messages(notAPlayer, noSuchServer, sendingToServer, startingServer, waitingForServer,
+                serverStartError);
     }
 
-    public ConfigFile createConfigFile(int inventorySize, String inventoryName, String panelUrl, String username, String password, List<Item> servers, Messages messages) {
+    public ConfigFile createConfigFile(int inventorySize, String inventoryName, String panelUrl, String username,
+                                       String password, List<Item> servers, Messages messages) {
         return new ConfigFile(inventorySize, inventoryName, panelUrl, username, password, servers, messages);
     }
 
@@ -24,7 +28,8 @@ public class Config {
         public List<Item> server;
         public Messages messages;
 
-        public ConfigFile(int inventorySize, String inventoryName, String panelUrl, String username, String password, List<Item> server, Messages messages) {
+        public ConfigFile(int inventorySize, String inventoryName, String panelUrl, String username, String password,
+                          List<Item> server, Messages messages) {
             this.inventorySize = inventorySize;
             this.inventoryName = inventoryName;
             this.panelUrl = panelUrl;
@@ -32,6 +37,18 @@ public class Config {
             this.password = password;
             this.server = server;
             this.messages = messages;
+        }
+
+        public boolean isValid() throws IllegalAccessException {
+            return this.inventorySize % 9 == 0 && this.inventorySize > 55 && (this.panelUrl.startsWith("http://") || this.panelUrl.startsWith("https://")) && !this.panelUrl.endsWith("/") && this.ensureNoNulls();
+        }
+
+        private boolean ensureNoNulls() throws IllegalAccessException {
+            for (final Field field : getClass().getDeclaredFields()) {
+                final Object value = field.get(this);
+                if (value == null) return false;
+            }
+            return true;
         }
     }
 
@@ -51,6 +68,15 @@ public class Config {
             this.serverId = serverId;
             this.serverName = serverName;
         }
+
+        boolean isValid() throws IllegalAccessException {
+            if (this.slot > 55) return false;
+            for (final Field field : getClass().getDeclaredFields()) {
+                final Object value = field.get(this);
+                if (value == null) return false;
+            }
+            return true;
+        }
     }
 
     public class Messages {
@@ -61,7 +87,16 @@ public class Config {
         public String waitingForServer;
         public String serverStartError;
 
-        public Messages(String notAPlayer, String noSuchServer, String sendingToServer, String startingServer, String waitingForServer, String serverStartError) {
+        boolean isValid() throws IllegalAccessException {
+            for (final Field field : getClass().getDeclaredFields()) {
+                final Object value = field.get(this);
+                if (value == null) return false;
+            }
+            return true;
+        }
+
+        public Messages(String notAPlayer, String noSuchServer, String sendingToServer, String startingServer,
+                        String waitingForServer, String serverStartError) {
             this.notAPlayer = notAPlayer;
             this.noSuchServer = noSuchServer;
             this.sendingToServer = sendingToServer;
