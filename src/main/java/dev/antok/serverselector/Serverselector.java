@@ -76,7 +76,7 @@ public final class Serverselector extends JavaPlugin {
 
 
             }
-        }, 20 * 5, 20 * 5);
+        }, configFile.pingTime, configFile.pingTime);
     }
 
     @Override

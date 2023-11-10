@@ -14,25 +14,28 @@ public class Config {
                 serverStartError);
     }
 
-    public ConfigFile createConfigFile(int inventorySize, String inventoryName, String panelUrl, String username,
-                                       String password, List<Item> servers, Messages messages) {
-        return new ConfigFile(inventorySize, inventoryName, panelUrl, username, password, servers, messages);
+    public ConfigFile createConfigFile(int inventorySize, String inventoryName, String panelUrl, int pingTime,
+                                       String username, String password, List<Item> servers, Messages messages) {
+        return new ConfigFile(inventorySize, inventoryName, panelUrl, pingTime, username, password, servers, messages);
     }
 
     public class ConfigFile {
         public int inventorySize;
         public String inventoryName;
         public String panelUrl;
+        public int pingTime;
         public String username;
         public String password;
         public List<Item> server;
         public Messages messages;
 
-        public ConfigFile(int inventorySize, String inventoryName, String panelUrl, String username, String password,
-                          List<Item> server, Messages messages) {
+
+        public ConfigFile(int inventorySize, String inventoryName, String panelUrl, int pingTime, String username,
+                          String password, List<Item> server, Messages messages) {
             this.inventorySize = inventorySize;
             this.inventoryName = inventoryName;
             this.panelUrl = panelUrl;
+            this.pingTime = pingTime;
             this.username = username;
             this.password = password;
             this.server = server;
