@@ -20,6 +20,7 @@ choose which server to join. If the server is not on for some reason it will be 
     inventorySize = 9
 inventoryName = "Select a server"
 panelUrl = "https://example.com"
+pingTime = 200
 username = "admin"
 password = "crafty"
 
@@ -91,5 +92,4 @@ language or customize the messages. Messages supports MiniMessage
 formatting. [documentation](https://docs.advntr.dev/minimessage/format.html)
 
 ## Roadmap
-
-After this I will consider this plugin completed and only fix bugs.
+I will only fix issues related to this plugin. No new features are planned!
